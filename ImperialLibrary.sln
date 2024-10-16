@@ -1,0 +1,27 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImperialLibrary.Client", "Client\ImperialLibrary.Client.csproj", "{CF442205-C9C4-4B4A-B71F-E0BBAE3986D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImperialLibrary.Server", "Server\ImperialLibrary.Server.csproj", "{EA3D55AF-EA06-493B-9ACD-3E4EEF29AA31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF442205-C9C4-4B4A-B71F-E0BBAE3986D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF442205-C9C4-4B4A-B71F-E0BBAE3986D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF442205-C9C4-4B4A-B71F-E0BBAE3986D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF442205-C9C4-4B4A-B71F-E0BBAE3986D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA3D55AF-EA06-493B-9ACD-3E4EEF29AA31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA3D55AF-EA06-493B-9ACD-3E4EEF29AA31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA3D55AF-EA06-493B-9ACD-3E4EEF29AA31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA3D55AF-EA06-493B-9ACD-3E4EEF29AA31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

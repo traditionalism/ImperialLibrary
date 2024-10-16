@@ -1,0 +1,16 @@
+﻿<Project Sdk="CitizenFX.Sdk.Client/0.2.3">
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+		<PackageId>ImperialLibrary.Client</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Imperial Solutions</Authors>
+		<Company>Imperial Solutions</Company>
+		<Product>ImperialLibrary</Product>
+		<Description> A FiveM plugin library designed for simplifying plugin creation for Imperial CAD.</Description>
+		<PackageTags>FiveM, API, Client</PackageTags>
+		<TargetFramework>net452</TargetFramework>
+	</PropertyGroup>
+    <ItemGroup>
+        <Compile Include="../Shared/**/*.cs" />
+    </ItemGroup>
+</Project>
