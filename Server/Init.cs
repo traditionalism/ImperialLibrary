@@ -56,7 +56,7 @@ namespace ImperialLibrary.Server
                 return;
             }
 
-            Logger.Log($"Successfully set Imperial CAD Tablet to Community: {exists.CommunityName} (https://imperialcad.app/home/{communityId})", LogLevel.Info);
+            Logger.Log($"Successfully set Imperial CAD to Community: {exists.CommunityName} (https://imperialcad.app/home/{communityId})");
             GlobalState.Set("imperial_community_id", communityId, true);
         }
     }

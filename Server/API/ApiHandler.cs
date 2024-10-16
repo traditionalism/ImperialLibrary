@@ -13,51 +13,54 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this library. If not, see <https://www.gnu.org/licenses/>.
 
-using System;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using Flurl;
+using Flurl.Http;
+using ImperialLibrary.Utils;
 
 namespace ImperialLibrary.Server.API
 {
-    /// <summary>
-    /// ApiHandler is an base class for making API requests. 
-    /// </summary>
-    public abstract class ApiHandler
+    /// <remarks>
+    /// Initializes the ApiHandler with the base URL.
+    /// </remarks>
+    public abstract class ApiHandler(string baseUrl)
     {
-        protected readonly HttpClient client;
-
-        /// <summary>
-        /// Initializes the ApiHandler.
-        /// </summary>
-        protected ApiHandler(string baseUrl)
-        {
-            client = new HttpClient
-            {
-                BaseAddress = new Uri(baseUrl)
-            };
-        }
-
         /// <summary>
         /// Makes a generic API request to the specified endpoint using the base URL of the Imperial CAD API.
-        /// This method is for internal use only.
         /// </summary>
         /// <param name="endpoint">The API endpoint to request (relative to the base URL).</param>
         /// <param name="method">The HTTP method to use for the request.</param>
         /// <param name="payload">Optional payload for POST/PUT requests.</param>
-        /// <returns>A <see cref="HttpResponseMessage"/> containing the API response.</returns>
-        internal async Task<HttpResponseMessage> RequestApi(string endpoint, HttpMethod method, object payload = null)
+        /// <param name="queryParams">Optional query parameters for GET requests.</param>
+        /// <returns>A Task representing the API response as a string.</returns>
+        internal async Task<string> RequestApi(string endpoint, HttpMethod method, object payload = null, object queryParams = null)
         {
-            HttpRequestMessage request = new(method, endpoint);
-
-            if (payload != null && (method == HttpMethod.Post || method == HttpMethod.Put))
+            try
             {
-                string json = JsonConvert.SerializeObject(payload);
-                request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-            }
+                Url requestUrl = baseUrl.AppendPathSegment(endpoint);
 
-            return await client.SendAsync(request);
+                if (method == HttpMethod.Get)
+                {
+                    if (queryParams != null)
+                    {
+                        requestUrl = requestUrl.SetQueryParams(queryParams);
+                    }
+                    return await requestUrl.GetStringAsync();
+                }
+                else
+                {
+                    return method == HttpMethod.Post || method == HttpMethod.Put
+                        ? await requestUrl.SendJsonAsync(method, payload).ReceiveString()
+                        : await requestUrl.SendAsync(method).ReceiveString();
+                }
+            }
+            catch (FlurlHttpException ex)
+            {
+                string errorResponse = await ex.GetResponseStringAsync();
+                Logger.Log($"Error during API request: {errorResponse}", LogLevel.Error);
+                return null;
+            }
         }
     }
 }

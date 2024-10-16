@@ -15,7 +15,6 @@
 
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -28,14 +27,9 @@ namespace ImperialLibrary.Server.API
     {
         private const string BaseApiUrl = "https://imperialcad.app/api/1.1/wf/";
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ApiWrapper"/> class with the base URL
-        /// set to the Imperial CAD API endpoint.
-        /// </summary>
         public ApiWrapper() : base(BaseApiUrl)
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         /// <summary>
@@ -46,9 +40,12 @@ namespace ImperialLibrary.Server.API
         /// <returns>A <see cref="CommunityResponse"/> object containing the result of the API request.</returns>
         public async Task<CommunityAuthorizationResponse> GetCommunityAuthorization(string communityId)
         {
-            HttpResponseMessage response = await RequestApi($"community_authorization?community_id={communityId}", HttpMethod.Get);
-            response.EnsureSuccessStatusCode();
-            string jsonString = await response.Content.ReadAsStringAsync();
+            object queryParams = new
+            {
+                community_id = communityId
+            };
+
+            string jsonString = await RequestApi("community_authorization", HttpMethod.Get, queryParams: queryParams);
             return JsonConvert.DeserializeObject<CommunityAuthorizationResponse>(jsonString);
         }
 
@@ -62,10 +59,14 @@ namespace ImperialLibrary.Server.API
         /// </returns>
         public async Task<UnitDataResponse> GetUnitData(string steamHex, string communityId)
         {
-            HttpResponseMessage response = await RequestApi($"unit_authorization?steam_hex={steamHex}&community_id={communityId}", HttpMethod.Get);
-            response.EnsureSuccessStatusCode();
-            string jsonString = await response.Content.ReadAsStringAsync();
+            string jsonString = await RequestApi($"unit_authorization?steam_hex={steamHex}&community_id={communityId}", HttpMethod.Get);
             return JsonConvert.DeserializeObject<UnitDataResponse>(jsonString);
+        }
+
+        public async Task<bool> Send911Call(dynamic callInfo)
+        {
+            string responseString = await RequestApi("911", HttpMethod.Post, callInfo);
+            return !string.IsNullOrEmpty(responseString);
         }
 
         /// <summary>
