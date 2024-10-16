@@ -28,15 +28,15 @@ after_build:
 
 
 
-    7z a ImperialLibrary-%VERSION_NAME%.zip -r "artifacts\*"
+    7z a ImperialLibrary-%APPVEYOR_BUILD_VERSION%.zip -r "artifacts\*"
 
 
 
-    appveyor PushArtifact ImperialLibrary-%VERSION_NAME%.zip
+    appveyor PushArtifact ImperialLibrary-%APPVEYOR_BUILD_VERSION%.zip
 deploy:
 - provider: GitHub
   tag: $(appveyor_build_version)
-  release: '[Release] ImperialLibrary-$(appveyor_build_version)'
+  release: '[Release] ImperialLibrary-v$(appveyor_build_version)'
   description: ImperialLibrary version v$(appveyor_build_version)
   auth_token:
     secure: Hw8d95jOk9+v5QZDK3UbueRKyvYMyht+W5r38JVngeqMB4sC+7V8cRwmGwu7rJbp
