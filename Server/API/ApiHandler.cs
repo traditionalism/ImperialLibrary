@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
 using ImperialLibrary.Utils;
+using Newtonsoft.Json;
 
 namespace ImperialLibrary.Server.API
 {
@@ -50,6 +51,8 @@ namespace ImperialLibrary.Server.API
                 }
                 else
                 {
+                    string payloadJson = payload != null ? JsonConvert.SerializeObject(payload) : "null";
+
                     return method == HttpMethod.Post || method == HttpMethod.Put
                         ? await requestUrl.SendJsonAsync(method, payload).ReceiveString()
                         : await requestUrl.SendAsync(method).ReceiveString();

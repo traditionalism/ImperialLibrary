@@ -33,7 +33,8 @@ namespace ImperialLibrary.Server
 
             if (communityId == null)
             {
-                Logger.Log("cvar 'imperial_community_id' is NULL! set this in your server.cfg ASAP!", LogLevel.Warn);
+                Logger.Log("cvar 'imperial_community_id' is NULL! set this in your server.cfg ASAP!", LogLevel.Error);
+                return;
             }
 
             // Check if another plugin with ImperialLibrary loaded before us has already set the 'imperial_community_id' GlobalState
