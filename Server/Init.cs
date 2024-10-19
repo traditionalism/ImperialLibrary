@@ -28,12 +28,12 @@ namespace ImperialLibrary.Server
 
         public Init()
         {
-            communityId = GetConvar("imperial_community_id", null);
+            communityId = GetConvar("imperial_community_id", "not_set");
             apiWrapper = new ApiWrapper();
 
-            if (communityId == null)
+            if (communityId == "not_set")
             {
-                Logger.Log("cvar 'imperial_community_id' is NULL! set this in your server.cfg ASAP!", LogLevel.Error);
+                Logger.Log("cvar 'imperial_community_id' is NOT SET! set this in your server.cfg ASAP!", LogLevel.Error);
                 return;
             }
 
